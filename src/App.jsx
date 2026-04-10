@@ -138,12 +138,12 @@ function App() {
           <div className={`relative mt-4 grid-fade section-shell clip-overflow sm:mt-6 ${isMobile ? "mobile-soft-enter" : ""}`}>
             <div className="pointer-events-none absolute inset-0 opacity-60" />
             <StaggerGroup className="relative grid items-center gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12">
-              <div className="space-y-6 text-center sm:space-y-8 sm:text-left">
+              <div className="mx-auto w-full max-w-xl space-y-6 text-center sm:space-y-8 lg:mx-0 lg:max-w-none lg:text-left">
                 <AnimatedReveal className="space-y-4 sm:text-left" duration={1}>
                   <span className="mx-auto inline-flex w-fit rounded-full border border-neon-blue/30 bg-neon-blue/10 px-4 py-2 text-sm text-neon-blue shadow-glow sm:mx-0">
                     Software Engineer Student
                   </span>
-                  <h1 className="max-w-3xl text-4xl font-extrabold leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-7xl">
+                  <h1 className="mx-auto max-w-3xl text-4xl font-extrabold leading-[0.95] tracking-tight text-white sm:text-5xl lg:mx-0 lg:text-7xl">
                     Kareem Basem
                   </h1>
                   <p className="text-base text-slate-200 sm:text-xl">
@@ -151,7 +151,7 @@ function App() {
                       Full-Stack Developer | Tech Learner
                     </span>
                   </p>
-                  <p className="max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
+                  <p className="mx-auto max-w-2xl text-base leading-8 text-slate-300 sm:text-lg lg:mx-0">
                     Passionate about building real-world web applications,
                     exploring game modding, and learning cybersecurity
                     concepts, with a strong focus on performance, clean
