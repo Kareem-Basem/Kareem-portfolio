@@ -169,6 +169,10 @@ img {
   .animate-float {
     animation: none !important;
   }
+
+  .mobile-soft-enter {
+    animation: mobile-soft-enter 260ms ease-out both !important;
+  }
 }
 
 .clip-overflow {
@@ -193,4 +197,16 @@ img {
 
 .signature-font {
   font-family: "Caveat", cursive;
+}
+
+@keyframes mobile-soft-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
