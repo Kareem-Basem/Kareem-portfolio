@@ -126,17 +126,7 @@ export function getCardHoverMotion(enabled, shadow) {
 }
 
 export function getAdaptiveTapMotion(motionLevel = "full") {
-  if (!isReducedMotionLevel(motionLevel)) {
-    return undefined;
-  }
-
-  return {
-    scale: 0.985,
-    transition: {
-      duration: 0.16,
-      ease: EASE,
-    },
-  };
+  return undefined;
 }
 
 export function getButtonMotionProps(enabled, motionLevel = "full") {
@@ -144,7 +134,7 @@ export function getButtonMotionProps(enabled, motionLevel = "full") {
     return {
       initial: false,
       whileHover: undefined,
-      whileTap: getAdaptiveTapMotion(motionLevel),
+      whileTap: undefined,
       variants: undefined,
     };
   }

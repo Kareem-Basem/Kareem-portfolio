@@ -13,9 +13,10 @@ function getDeviceSnapshot() {
     };
   }
 
-  const isMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`).matches;
+  const isNarrowScreen = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches;
   const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const isMobile = isNarrowScreen || !canHover;
   const motionLevel = isMobile || prefersReducedMotion ? "reduced" : "full";
 
   return {
@@ -35,7 +36,7 @@ export default function useDeviceMode() {
       return undefined;
     }
 
-    const mobileQuery = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
+    const mobileQuery = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
     const hoverQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const updateDevice = () => setDevice(getDeviceSnapshot());

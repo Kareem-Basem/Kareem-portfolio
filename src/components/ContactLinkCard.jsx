@@ -1,19 +1,22 @@
 import { memo } from "react";
-import { motion } from "framer-motion";
 import useDeviceMode from "../hooks/useDeviceMode";
 import { getAdaptiveTapMotion, getCardHoverMotion } from "../utils/motion";
+import { useMotionProps, useMotionTag } from "./MotionSafe";
 import TiltCard from "./TiltCard";
 
 function ContactLinkCard({ href, label, value, external = false }) {
   const { enableRichMotion, motionLevel } = useDeviceMode();
+  const MotionAnchor = useMotionTag("a");
 
   return (
-    <motion.a
+    <MotionAnchor
       href={href}
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer noopener" : undefined}
-      whileHover={getCardHoverMotion(enableRichMotion)}
-      whileTap={getAdaptiveTapMotion(motionLevel)}
+      {...useMotionProps({
+        whileHover: getCardHoverMotion(enableRichMotion),
+        whileTap: getAdaptiveTapMotion(motionLevel),
+      })}
       className="block rounded-[1.35rem] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
     >
       <TiltCard
@@ -30,7 +33,7 @@ function ContactLinkCard({ href, label, value, external = false }) {
           </p>
         </div>
       </TiltCard>
-    </motion.a>
+    </MotionAnchor>
   );
 }
 

@@ -71,7 +71,7 @@ function Navbar() {
         zIndex: 50,
         padding: "0.75rem 1rem",
         transform: visible ? "translateY(0)" : "translateY(-110%)",
-        transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+        transition: isMobile ? "none" : "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
       }}
       className="sm:px-5 sm:py-4"
     >
@@ -90,7 +90,7 @@ function Navbar() {
             : isMobile
               ? "0 8px 20px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.05)"
               : "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)",
-          transition: "background 0.3s ease, box-shadow 0.3s ease",
+          transition: isMobile ? "none" : "background 0.3s ease, box-shadow 0.3s ease",
         }}
         className="rounded-2xl px-4 py-3 sm:px-5 sm:py-4"
       >

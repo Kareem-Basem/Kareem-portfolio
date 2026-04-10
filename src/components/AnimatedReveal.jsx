@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
 import useDeviceMode from "../hooks/useDeviceMode";
+import { useMotionProps, useMotionTag } from "./MotionSafe";
 import {
   createAdaptiveFadeUp,
   getAdaptiveViewport,
@@ -14,24 +14,25 @@ function AnimatedReveal({
   distance = 100,
   variants,
 }) {
-  const Component = motion[as];
+  const Component = useMotionTag(as);
   const { motionLevel } = useDeviceMode();
 
   return (
     <Component
       className={className}
-      variants={
-        variants ??
-        createAdaptiveFadeUp({
-          motionLevel,
-          duration,
-          delay,
-          distance,
-        })
-      }
-      initial="hidden"
-      whileInView="show"
-      viewport={getAdaptiveViewport(motionLevel)}
+      {...useMotionProps({
+        variants:
+          variants ??
+          createAdaptiveFadeUp({
+            motionLevel,
+            duration,
+            delay,
+            distance,
+          }),
+        initial: "hidden",
+        whileInView: "show",
+        viewport: getAdaptiveViewport(motionLevel),
+      })}
     >
       {children}
     </Component>

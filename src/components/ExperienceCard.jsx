@@ -1,25 +1,28 @@
 import { memo } from "react";
-import { motion } from "framer-motion";
 import useDeviceMode from "../hooks/useDeviceMode";
 import {
   createAdaptiveFadeUp,
   getAdaptiveTapMotion,
   getCardHoverMotion,
 } from "../utils/motion";
+import { useMotionProps, useMotionTag } from "./MotionSafe";
 import TiltCard from "./TiltCard";
 
 function ExperienceCard({ item, index }) {
   const { enableRichMotion, motionLevel } = useDeviceMode();
+  const MotionArticle = useMotionTag("article");
   const isActive = item.period.includes("Present");
 
   return (
-    <motion.article
-      variants={createAdaptiveFadeUp({
-        motionLevel,
-        duration: 1 + index * 0.05,
+    <MotionArticle
+      {...useMotionProps({
+        variants: createAdaptiveFadeUp({
+          motionLevel,
+          duration: 1 + index * 0.05,
+        }),
+        whileHover: getCardHoverMotion(enableRichMotion),
+        whileTap: getAdaptiveTapMotion(motionLevel),
       })}
-      whileHover={getCardHoverMotion(enableRichMotion)}
-      whileTap={getAdaptiveTapMotion(motionLevel)}
       className="glass-panel rounded-[1.75rem]"
     >
       <TiltCard
@@ -63,7 +66,7 @@ function ExperienceCard({ item, index }) {
           </ul>
         </div>
       </TiltCard>
-    </motion.article>
+    </MotionArticle>
   );
 }
 

@@ -1,7 +1,11 @@
 import { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import useDeviceMode from "./hooks/useDeviceMode";
 import AnimatedReveal from "./components/AnimatedReveal";
+import {
+  MotionSafePresence,
+  useMotionProps,
+  useMotionTag,
+} from "./components/MotionSafe";
 import Navbar from "./components/Navbar";
 import Section from "./components/Section";
 import ProjectCard from "./components/ProjectCard";
@@ -77,6 +81,10 @@ const contactLinks = [
 
 function App() {
   const { enableRichMotion, motionLevel, isMobile } = useDeviceMode();
+  const MotionDiv = useMotionTag("div");
+  const MotionAnchor = useMotionTag("a");
+  const MotionButton = useMotionTag("button");
+  const MotionSpan = useMotionTag("span");
   const [activeCertificateCategory, setActiveCertificateCategory] = useState(
     "AI & Generative AI",
   );
@@ -151,29 +159,31 @@ function App() {
                   </p>
                 </AnimatedReveal>
 
-                <motion.div
-                  variants={createAdaptiveFadeUp({
-                    motionLevel,
-                    duration: 1.1,
+                <MotionDiv
+                  {...useMotionProps({
+                    variants: createAdaptiveFadeUp({
+                      motionLevel,
+                      duration: 1.1,
+                    }),
                   })}
                   className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4"
                 >
-                  <motion.a
+                  <MotionAnchor
                     href="#projects"
                     {...buttonMotionProps}
                     className="w-full rounded-2xl bg-gradient-to-r from-neon-blue to-cyan-400 px-6 py-3 text-center font-semibold text-slate-950 sm:w-auto"
                   >
                     View Projects
-                  </motion.a>
+                  </MotionAnchor>
                   <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:gap-4">
-                    <motion.a
+                    <MotionAnchor
                       href="#contact"
                       {...buttonMotionProps}
                       className="glass-panel rounded-2xl px-4 py-3 text-center font-semibold text-white sm:px-6"
                     >
                       Contact
-                    </motion.a>
-                    <motion.a
+                    </MotionAnchor>
+                    <MotionAnchor
                       href={kareemCv}
                       target="_blank"
                       rel="noreferrer noopener"
@@ -181,9 +191,9 @@ function App() {
                       className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center font-semibold text-white sm:px-6"
                     >
                       View CV
-                    </motion.a>
+                    </MotionAnchor>
                   </div>
-                </motion.div>
+                </MotionDiv>
 
                 <StaggerGroup className="grid gap-3 sm:grid-cols-3 sm:gap-4">
                   {[
@@ -191,16 +201,18 @@ function App() {
                     "Game Modding",
                     "Cybersecurity",
                   ].map((item, index) => (
-                    <motion.div
+                    <MotionDiv
                       key={item}
-                      variants={createAdaptiveFadeUp({
-                        motionLevel,
-                        duration: 1 + index * 0.1,
+                      {...useMotionProps({
+                        variants: createAdaptiveFadeUp({
+                          motionLevel,
+                          duration: 1 + index * 0.1,
+                        }),
                       })}
                       className="glass-panel rounded-2xl px-4 py-3 text-center text-sm text-slate-200 sm:py-4 sm:text-left"
                     >
                       {item}
-                    </motion.div>
+                    </MotionDiv>
                   ))}
                 </StaggerGroup>
               </div>
@@ -260,16 +272,18 @@ function App() {
               "I have a solid understanding of software, operating systems, and database management, along with hands-on experience in building structured and efficient systems.",
               "I'm continuously learning, experimenting, and improving, aiming to grow into a professional who builds scalable, high-quality applications.",
             ].map((text, index) => (
-              <motion.div
+              <MotionDiv
                 key={text}
-                variants={createAdaptiveFadeUp({
-                  motionLevel,
-                  duration: 1 + index * 0.1,
+                {...useMotionProps({
+                  variants: createAdaptiveFadeUp({
+                    motionLevel,
+                    duration: 1 + index * 0.1,
+                  }),
                 })}
                 className="glass-panel rounded-2xl p-5 text-slate-300"
               >
                 {text}
-              </motion.div>
+              </MotionDiv>
             ))}
           </StaggerGroup>
         </Section>
@@ -282,14 +296,16 @@ function App() {
         >
           <StaggerGroup className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {skills.map((group, index) => (
-              <motion.div
+              <MotionDiv
                 key={group.title}
-                variants={createAdaptiveFadeUp({
-                  motionLevel,
-                  duration: 1 + index * 0.1,
+                {...useMotionProps({
+                  variants: createAdaptiveFadeUp({
+                    motionLevel,
+                    duration: 1 + index * 0.1,
+                  }),
+                  whileHover: getCardHoverMotion(enableRichMotion),
+                  whileTap: motionLevel === "reduced" ? { scale: 0.985 } : undefined,
                 })}
-                whileHover={getCardHoverMotion(enableRichMotion)}
-                whileTap={motionLevel === "reduced" ? { scale: 0.985 } : undefined}
                 className="glass-panel rounded-2xl p-5"
               >
                 <h3 className="mb-4 text-lg font-semibold text-white">
@@ -305,7 +321,7 @@ function App() {
                     </span>
                   ))}
                 </div>
-              </motion.div>
+              </MotionDiv>
             ))}
           </StaggerGroup>
         </Section>
@@ -344,20 +360,22 @@ function App() {
         >
           <div className="space-y-10">
             <div>
-              <motion.div
-                variants={createAdaptiveFadeUp({
-                  motionLevel,
-                  duration: 1,
+              <MotionDiv
+                {...useMotionProps({
+                  variants: createAdaptiveFadeUp({
+                    motionLevel,
+                    duration: 1,
+                  }),
+                  initial: "hidden",
+                  whileInView: "show",
+                  viewport: getAdaptiveViewport(motionLevel),
                 })}
-                initial="hidden"
-                whileInView="show"
-                viewport={getAdaptiveViewport(motionLevel)}
                 className="mb-5"
               >
                 <h3 className="text-xl font-semibold text-white">
                   Featured Certifications
                 </h3>
-              </motion.div>
+              </MotionDiv>
               <StaggerGroup className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
                 {featuredCertificates.map((certificate) => (
                   <CertificateCard
@@ -370,23 +388,27 @@ function App() {
             </div>
 
             <div>
-              <motion.div
-                variants={createAdaptiveFadeUp({
-                  motionLevel,
-                  duration: 1.05,
+              <MotionDiv
+                {...useMotionProps({
+                  variants: createAdaptiveFadeUp({
+                    motionLevel,
+                    duration: 1.05,
+                  }),
+                  initial: "hidden",
+                  whileInView: "show",
+                  viewport: getAdaptiveViewport(motionLevel),
                 })}
-                initial="hidden"
-                whileInView="show"
-                viewport={getAdaptiveViewport(motionLevel)}
                 className="mb-5 flex flex-wrap gap-3"
               >
                 {certificateCategories.map((category, index) => (
-                  <motion.button
+                  <MotionButton
                     key={category}
                     type="button"
-                    variants={createAdaptiveFadeUp({
-                      motionLevel,
-                      duration: 1 + index * 0.05,
+                    {...useMotionProps({
+                      variants: createAdaptiveFadeUp({
+                        motionLevel,
+                        duration: 1 + index * 0.05,
+                      }),
                     })}
                     onClick={() => setActiveCertificateCategory(category)}
                     className={`rounded-full px-4 py-2 text-sm font-medium transition duration-300 ${
@@ -396,20 +418,22 @@ function App() {
                     }`}
                   >
                     {category}
-                  </motion.button>
+                  </MotionButton>
                 ))}
-              </motion.div>
+              </MotionDiv>
 
-              <AnimatePresence mode="wait">
-                <motion.div
+              <MotionSafePresence mode="wait">
+                <MotionDiv
                   key={activeCertificateCategory}
-                  variants={createAdaptiveFadeUp({
-                    motionLevel,
-                    duration: 1,
+                  {...useMotionProps({
+                    variants: createAdaptiveFadeUp({
+                      motionLevel,
+                      duration: 1,
+                    }),
+                    initial: "hidden",
+                    animate: "show",
+                    exit: "hidden",
                   })}
-                  initial="hidden"
-                  animate="show"
-                  exit="hidden"
                 >
                   <StaggerGroup className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
                     {filteredCertificates.map((certificate) => (
@@ -419,8 +443,8 @@ function App() {
                       />
                     ))}
                   </StaggerGroup>
-                </motion.div>
-              </AnimatePresence>
+                </MotionDiv>
+              </MotionSafePresence>
             </div>
           </div>
         </Section>
@@ -432,16 +456,18 @@ function App() {
           description="Reach out directly or jump to the main professional links from one clean contact hub."
         >
           <div className="max-w-5xl">
-            <motion.div
-              variants={createAdaptiveFadeUp({
-                motionLevel,
-                duration: 1,
+            <MotionDiv
+              {...useMotionProps({
+                variants: createAdaptiveFadeUp({
+                  motionLevel,
+                  duration: 1,
+                }),
+                initial: "hidden",
+                whileInView: "show",
+                viewport: getAdaptiveViewport(motionLevel),
+                whileHover: getCardHoverMotion(enableRichMotion),
+                whileTap: motionLevel === "reduced" ? { scale: 0.99 } : undefined,
               })}
-              initial="hidden"
-              whileInView="show"
-              viewport={getAdaptiveViewport(motionLevel)}
-              whileHover={getCardHoverMotion(enableRichMotion)}
-              whileTap={motionLevel === "reduced" ? { scale: 0.99 } : undefined}
               className="glass-panel block rounded-[1.75rem] p-6 sm:p-8"
             >
               <p className="mb-3 text-sm uppercase tracking-[0.28em] text-neon-blue">
@@ -458,11 +484,13 @@ function App() {
                 {contactLinks
                   .filter((item) => item.label !== "Email")
                   .map((item, index) => (
-                    <motion.span
+                    <MotionSpan
                       key={item.label}
-                      variants={createAdaptiveFadeUp({
-                        motionLevel,
-                        duration: 1 + index * 0.1,
+                      {...useMotionProps({
+                        variants: createAdaptiveFadeUp({
+                          motionLevel,
+                          duration: 1 + index * 0.1,
+                        }),
                       })}
                       className="block"
                     >
@@ -474,7 +502,7 @@ function App() {
                           item.href.startsWith("http") || item.href.endsWith(".pdf")
                         }
                       />
-                    </motion.span>
+                    </MotionSpan>
                   ))}
               </StaggerGroup>
 
@@ -483,7 +511,7 @@ function App() {
                   Designed by KeMoO
                 </p>
               </div>
-            </motion.div>
+            </MotionDiv>
           </div>
         </Section>
       </main>
