@@ -69,11 +69,12 @@ function Navbar() {
         left: 0,
         right: 0,
         zIndex: 50,
-        padding: "0.75rem 1rem",
+        paddingTop: "0.75rem",
+        paddingBottom: "0.75rem",
         transform: visible ? "translateY(0)" : "translateY(-110%)",
         transition: isMobile ? "none" : "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
       }}
-      className="sm:px-5 sm:py-4"
+      className="px-4 sm:px-6 sm:py-4 lg:px-8"
     >
       <nav
         style={{
@@ -143,7 +144,7 @@ function Navbar() {
           </a>
         </div>
 
-        <div className="-mx-1 mt-3 flex gap-2 overflow-x-auto px-1 pb-1 md:hidden">
+        <div className="mt-3 flex gap-2 overflow-x-auto pb-1 md:hidden">
           {navItems.map((item) => {
             const isActive = activeSection === item.href.slice(1);
 
