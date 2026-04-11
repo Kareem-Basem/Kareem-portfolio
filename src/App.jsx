@@ -76,11 +76,11 @@ const contactLinks = [
 ];
 
 function App() {
-  const { enableRichMotion, useCompactMotion } = useDeviceMode();
+  const { enableRichMotion, motionLevel, isMobile } = useDeviceMode();
   const [activeCertificateCategory, setActiveCertificateCategory] = useState(
     "AI & Generative AI",
   );
-  const buttonMotionProps = getButtonMotionProps(enableRichMotion);
+  const buttonMotionProps = getButtonMotionProps(enableRichMotion, motionLevel);
 
   const featuredCertificates = useMemo(
     () => certificates.filter((certificate) => certificate.featured),
@@ -105,12 +105,22 @@ function App() {
       ),
     [activeCertificateCategory],
   );
+  const categoryButtonHoverClass = enableRichMotion ? "hover:bg-white/10" : "";
+  const contactEmailHoverClass = enableRichMotion ? "hover:text-cyan-300" : "";
 
   return (
     <div className="relative min-h-screen">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-0 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-neon-blue/15 blur-[120px]" />
-        <div className="absolute right-0 top-32 h-80 w-80 rounded-full bg-neon-purple/15 blur-[140px]" />
+        <div
+          className={`absolute left-1/2 top-0 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-neon-blue/15 ${
+            isMobile ? "opacity-40 blur-[72px]" : "opacity-100 blur-[120px]"
+          }`}
+        />
+        <div
+          className={`absolute right-0 top-32 h-80 w-80 rounded-full bg-neon-purple/15 ${
+            isMobile ? "opacity-40 blur-[80px]" : "opacity-100 blur-[140px]"
+          }`}
+        />
       </div>
 
       <Navbar />
@@ -143,7 +153,7 @@ function App() {
 
                 <motion.div
                   variants={createAdaptiveFadeUp({
-                    isCompact: useCompactMotion,
+                    motionLevel,
                     duration: 1.1,
                   })}
                   className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4"
@@ -184,7 +194,7 @@ function App() {
                     <motion.div
                       key={item}
                       variants={createAdaptiveFadeUp({
-                        isCompact: useCompactMotion,
+                        motionLevel,
                         duration: 1 + index * 0.1,
                       })}
                       className="glass-panel rounded-2xl px-4 py-3 text-center text-sm text-slate-200 sm:py-4 sm:text-left"
@@ -198,18 +208,24 @@ function App() {
               <AnimatedReveal
                 className="order-2 relative mx-auto w-full max-w-sm sm:max-w-md lg:order-none"
                 variants={createAdaptiveFadeLeft({
-                  isCompact: useCompactMotion,
+                  motionLevel,
                   duration: 1.1,
                 })}
               >
-                <div className="glass-panel animate-float relative rounded-[2rem] p-4 sm:p-6">
+                <div className={`glass-panel relative rounded-[2rem] p-4 sm:p-6 ${isMobile ? "" : "animate-float"}`}>
                   <div className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />
                   <div className="rounded-[1.5rem] border border-white/10 bg-slate-950/60 p-5 sm:p-6">
                     <div className="mb-6 flex items-center justify-between">
                       <span className="text-sm uppercase tracking-[0.3em] text-slate-400">
                         Focus
                       </span>
-                      <span className="h-3 w-3 rounded-full bg-cyan-400 shadow-[0_0_18px_rgba(34,211,238,0.9)]" />
+                      <span
+                        className={`h-3 w-3 rounded-full bg-cyan-400 ${
+                          isMobile
+                            ? "shadow-[0_0_10px_rgba(34,211,238,0.42)]"
+                            : "shadow-[0_0_18px_rgba(34,211,238,0.9)]"
+                        }`}
+                      />
                     </div>
                     <div className="space-y-4">
                       {[
@@ -247,7 +263,7 @@ function App() {
               <motion.div
                 key={text}
                 variants={createAdaptiveFadeUp({
-                  isCompact: useCompactMotion,
+                  motionLevel,
                   duration: 1 + index * 0.1,
                 })}
                 className="glass-panel rounded-2xl p-5 text-slate-300"
@@ -269,10 +285,11 @@ function App() {
               <motion.div
                 key={group.title}
                 variants={createAdaptiveFadeUp({
-                  isCompact: useCompactMotion,
+                  motionLevel,
                   duration: 1 + index * 0.1,
                 })}
                 whileHover={getCardHoverMotion(enableRichMotion)}
+                whileTap={motionLevel === "reduced" ? { scale: 0.985 } : undefined}
                 className="glass-panel rounded-2xl p-5"
               >
                 <h3 className="mb-4 text-lg font-semibold text-white">
@@ -329,12 +346,12 @@ function App() {
             <div>
               <motion.div
                 variants={createAdaptiveFadeUp({
-                  isCompact: useCompactMotion,
+                  motionLevel,
                   duration: 1,
                 })}
                 initial="hidden"
                 whileInView="show"
-                viewport={getAdaptiveViewport(useCompactMotion)}
+                viewport={getAdaptiveViewport(motionLevel)}
                 className="mb-5"
               >
                 <h3 className="text-xl font-semibold text-white">
@@ -355,12 +372,12 @@ function App() {
             <div>
               <motion.div
                 variants={createAdaptiveFadeUp({
-                  isCompact: useCompactMotion,
+                  motionLevel,
                   duration: 1.05,
                 })}
                 initial="hidden"
                 whileInView="show"
-                viewport={getAdaptiveViewport(useCompactMotion)}
+                viewport={getAdaptiveViewport(motionLevel)}
                 className="mb-5 flex flex-wrap gap-3"
               >
                 {certificateCategories.map((category, index) => (
@@ -368,14 +385,14 @@ function App() {
                     key={category}
                     type="button"
                     variants={createAdaptiveFadeUp({
-                      isCompact: useCompactMotion,
+                      motionLevel,
                       duration: 1 + index * 0.05,
                     })}
                     onClick={() => setActiveCertificateCategory(category)}
                     className={`rounded-full px-4 py-2 text-sm font-medium transition duration-300 ${
                       activeCertificateCategory === category
                         ? "border border-neon-blue/30 bg-neon-blue/15 text-neon-blue"
-                        : "border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
+                        : `border border-white/10 bg-white/5 text-slate-300 ${categoryButtonHoverClass}`
                     }`}
                   >
                     {category}
@@ -387,7 +404,7 @@ function App() {
                 <motion.div
                   key={activeCertificateCategory}
                   variants={createAdaptiveFadeUp({
-                    isCompact: useCompactMotion,
+                    motionLevel,
                     duration: 1,
                   })}
                   initial="hidden"
@@ -417,13 +434,14 @@ function App() {
           <div className="max-w-5xl">
             <motion.div
               variants={createAdaptiveFadeUp({
-                isCompact: useCompactMotion,
+                motionLevel,
                 duration: 1,
               })}
               initial="hidden"
               whileInView="show"
-              viewport={getAdaptiveViewport(useCompactMotion)}
+              viewport={getAdaptiveViewport(motionLevel)}
               whileHover={getCardHoverMotion(enableRichMotion)}
+              whileTap={motionLevel === "reduced" ? { scale: 0.99 } : undefined}
               className="glass-panel block rounded-[1.75rem] p-6 sm:p-8"
             >
               <p className="mb-3 text-sm uppercase tracking-[0.28em] text-neon-blue">
@@ -431,7 +449,7 @@ function App() {
               </p>
               <a
                 href="mailto:karemalwy1@gmail.com"
-                className="mb-6 block break-all text-xl font-semibold text-white transition duration-300 hover:text-cyan-300 sm:text-3xl sm:break-normal"
+                className={`mb-6 block break-all text-xl font-semibold text-white transition duration-300 sm:text-3xl sm:break-normal ${contactEmailHoverClass}`}
               >
                 karemalwy1@gmail.com
               </a>
@@ -443,7 +461,7 @@ function App() {
                     <motion.span
                       key={item.label}
                       variants={createAdaptiveFadeUp({
-                        isCompact: useCompactMotion,
+                        motionLevel,
                         duration: 1 + index * 0.1,
                       })}
                       className="block"

@@ -82,12 +82,14 @@ function Navbar() {
           background: atTop
             ? "rgba(13, 18, 32, 0.5)"
             : "rgba(13, 18, 32, 0.85)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
+          backdropFilter: isMobile ? "blur(8px)" : "blur(24px)",
+          WebkitBackdropFilter: isMobile ? "blur(8px)" : "blur(24px)",
           border: "1px solid rgba(255,255,255,0.08)",
           boxShadow: atTop
             ? "none"
-            : "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)",
+            : isMobile
+              ? "0 8px 20px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.05)"
+              : "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)",
           transition: "background 0.3s ease, box-shadow 0.3s ease",
         }}
         className="rounded-2xl px-4 py-3 sm:px-5 sm:py-4"
@@ -112,10 +114,12 @@ function Navbar() {
                   key={item.href}
                   href={item.href}
                   onClick={scrollToSection(item.href)}
-                  className={`pb-1 text-sm transition duration-200 hover:text-white ${
+                  className={`pb-1 text-sm transition duration-200 ${
                     isActive
                       ? "border-b border-white/70 text-white"
-                      : "border-b border-transparent text-slate-300/85"
+                      : `border-b border-transparent text-slate-300/85 ${
+                          enableRichMotion ? "hover:text-white" : ""
+                        }`
                   }`}
                 >
                   {item.label}
@@ -130,7 +134,9 @@ function Navbar() {
             className={`shrink-0 rounded-full border px-3.5 py-2 text-sm transition duration-200 sm:px-4 sm:py-[0.55rem] ${
               activeSection === "contact"
                 ? "border-sky-400/45 bg-sky-400/15 text-sky-300 shadow-[0_0_0_1px_rgba(56,189,248,0.2),0_10px_24px_rgba(8,145,178,0.15)]"
-                : "border-sky-400/30 bg-sky-400/10 text-sky-400 hover:border-sky-400/45 hover:bg-sky-400/20"
+                : `border-sky-400/30 bg-sky-400/10 text-sky-400 ${
+                    enableRichMotion ? "hover:border-sky-400/45 hover:bg-sky-400/20" : ""
+                  }`
             } ${enableRichMotion ? "hover:-translate-y-px" : ""}`}
           >
             Contact

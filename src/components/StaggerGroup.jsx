@@ -13,19 +13,19 @@ function StaggerGroup({
   delayChildren = 0,
 }) {
   const Component = motion[as];
-  const { useCompactMotion } = useDeviceMode();
+  const { motionLevel } = useDeviceMode();
 
   return (
     <Component
       className={className}
       variants={createAdaptiveStaggerContainer({
-        isCompact: useCompactMotion,
+        motionLevel,
         delayChildren,
         staggerChildren,
       })}
       initial="hidden"
       whileInView="show"
-      viewport={getAdaptiveViewport(useCompactMotion)}
+      viewport={getAdaptiveViewport(motionLevel)}
     >
       {children}
     </Component>

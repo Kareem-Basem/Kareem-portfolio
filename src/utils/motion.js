@@ -4,6 +4,15 @@ export const darkEntryViewport = {
 };
 
 const EASE = "ease";
+const REDUCED_VIEWPORT = {
+  once: true,
+  amount: 0.2,
+  margin: "0px 0px -40px 0px",
+};
+
+function isReducedMotionLevel(motionLevel) {
+  return motionLevel === "reduced";
+}
 
 export function createFadeUp({
   duration = 1,
@@ -21,17 +30,18 @@ export function createFadeUp({
 }
 
 export function createAdaptiveFadeUp({
-  isCompact = false,
+  motionLevel = "full",
   duration,
   delay = 0,
   distance,
 } = {}) {
-  const resolvedDuration = duration ?? 1;
+  const reduced = isReducedMotionLevel(motionLevel);
+  const resolvedDuration = duration ?? (reduced ? 0.25 : 0.6);
 
   return createFadeUp({
-    duration: isCompact ? Math.min(resolvedDuration, 0.42) : resolvedDuration,
+    duration: reduced ? Math.min(resolvedDuration, 0.25) : resolvedDuration,
     delay,
-    distance: distance ?? (isCompact ? 24 : 100),
+    distance: distance ?? (reduced ? 10 : 40),
   });
 }
 
@@ -51,17 +61,18 @@ export function createFadeLeft({
 }
 
 export function createAdaptiveFadeLeft({
-  isCompact = false,
+  motionLevel = "full",
   duration,
   delay = 0,
   distance,
 } = {}) {
-  const resolvedDuration = duration ?? 1;
+  const reduced = isReducedMotionLevel(motionLevel);
+  const resolvedDuration = duration ?? (reduced ? 0.25 : 0.6);
 
   return createFadeLeft({
-    duration: isCompact ? Math.min(resolvedDuration, 0.45) : resolvedDuration,
+    duration: reduced ? Math.min(resolvedDuration, 0.25) : resolvedDuration,
     delay,
-    distance: distance ?? (isCompact ? 24 : 100),
+    distance: distance ?? (reduced ? 10 : 40),
   });
 }
 
@@ -81,21 +92,24 @@ export function createStaggerContainer({
 }
 
 export function createAdaptiveStaggerContainer({
-  isCompact = false,
+  motionLevel = "full",
   delayChildren = 0,
   staggerChildren,
 } = {}) {
+  const reduced = isReducedMotionLevel(motionLevel);
   const resolvedStagger = staggerChildren ?? 0.1;
 
   return createStaggerContainer({
     delayChildren,
-    staggerChildren: isCompact ? Math.min(resolvedStagger, 0.04) : resolvedStagger,
+    staggerChildren: reduced
+      ? Math.min(resolvedStagger, 0.06)
+      : Math.max(resolvedStagger, 0.12),
   });
 }
 
-export function getAdaptiveViewport(isCompact = false) {
-  return isCompact
-    ? { once: true, amount: 0.08, margin: "0px 0px -40px 0px" }
+export function getAdaptiveViewport(motionLevel = "full") {
+  return isReducedMotionLevel(motionLevel)
+    ? REDUCED_VIEWPORT
     : darkEntryViewport;
 }
 
@@ -111,12 +125,26 @@ export function getCardHoverMotion(enabled, shadow) {
   };
 }
 
-export function getButtonMotionProps(enabled) {
+export function getAdaptiveTapMotion(motionLevel = "full") {
+  if (!isReducedMotionLevel(motionLevel)) {
+    return undefined;
+  }
+
+  return {
+    scale: 0.985,
+    transition: {
+      duration: 0.16,
+      ease: EASE,
+    },
+  };
+}
+
+export function getButtonMotionProps(enabled, motionLevel = "full") {
   if (!enabled) {
     return {
       initial: false,
       whileHover: undefined,
-      whileTap: undefined,
+      whileTap: getAdaptiveTapMotion(motionLevel),
       variants: undefined,
     };
   }

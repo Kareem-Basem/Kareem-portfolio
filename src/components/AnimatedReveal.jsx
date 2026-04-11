@@ -15,7 +15,7 @@ function AnimatedReveal({
   variants,
 }) {
   const Component = motion[as];
-  const { useCompactMotion } = useDeviceMode();
+  const { motionLevel } = useDeviceMode();
 
   return (
     <Component
@@ -23,7 +23,7 @@ function AnimatedReveal({
       variants={
         variants ??
         createAdaptiveFadeUp({
-          isCompact: useCompactMotion,
+          motionLevel,
           duration,
           delay,
           distance,
@@ -31,7 +31,7 @@ function AnimatedReveal({
       }
       initial="hidden"
       whileInView="show"
-      viewport={getAdaptiveViewport(useCompactMotion)}
+      viewport={getAdaptiveViewport(motionLevel)}
     >
       {children}
     </Component>

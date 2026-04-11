@@ -1,10 +1,11 @@
+import { memo } from "react";
 import { motion } from "framer-motion";
 import useDeviceMode from "../hooks/useDeviceMode";
-import { getCardHoverMotion } from "../utils/motion";
+import { getAdaptiveTapMotion, getCardHoverMotion } from "../utils/motion";
 import TiltCard from "./TiltCard";
 
 function ContactLinkCard({ href, label, value, external = false }) {
-  const { enableRichMotion } = useDeviceMode();
+  const { enableRichMotion, motionLevel } = useDeviceMode();
 
   return (
     <motion.a
@@ -12,6 +13,7 @@ function ContactLinkCard({ href, label, value, external = false }) {
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer noopener" : undefined}
       whileHover={getCardHoverMotion(enableRichMotion)}
+      whileTap={getAdaptiveTapMotion(motionLevel)}
       className="block rounded-[1.35rem] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
     >
       <TiltCard
@@ -32,4 +34,4 @@ function ContactLinkCard({ href, label, value, external = false }) {
   );
 }
 
-export default ContactLinkCard;
+export default memo(ContactLinkCard);

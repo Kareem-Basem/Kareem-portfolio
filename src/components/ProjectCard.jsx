@@ -1,7 +1,9 @@
+import { memo } from "react";
 import { motion } from "framer-motion";
 import {
   createAdaptiveFadeUp,
   createAdaptiveStaggerContainer,
+  getAdaptiveTapMotion,
   getAdaptiveViewport,
   getCardHoverMotion,
 } from "../utils/motion";
@@ -15,23 +17,33 @@ function handleImageError(event, title) {
 }
 
 function ProjectCard({ project }) {
-  const { enableRichMotion, useCompactMotion } = useDeviceMode();
+  const { enableRichMotion, motionLevel } = useDeviceMode();
+  const primaryButtonHoverClass = enableRichMotion
+    ? "hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_0_24px_rgba(56,189,248,0.22)]"
+    : "";
+  const secondaryButtonHoverClass = enableRichMotion
+    ? "hover:-translate-y-1 hover:scale-[1.02] hover:bg-white/10 hover:shadow-[0_0_24px_rgba(56,189,248,0.14)]"
+    : "";
+  const accentButtonHoverClass = enableRichMotion
+    ? "hover:-translate-y-1 hover:scale-[1.02] hover:bg-neon-purple/20 hover:shadow-[0_0_24px_rgba(139,92,246,0.2)]"
+    : "";
 
   return (
     <motion.article
       initial="hidden"
       whileInView="show"
-      viewport={getAdaptiveViewport(useCompactMotion)}
-      variants={createAdaptiveFadeUp({ isCompact: useCompactMotion, duration: 1 })}
+      viewport={getAdaptiveViewport(motionLevel)}
+      variants={createAdaptiveFadeUp({ motionLevel, duration: 1 })}
       whileHover={getCardHoverMotion(
         enableRichMotion,
         "0 30px 90px rgba(15, 23, 42, 0.48), 0 0 24px rgba(56, 189, 248, 0.14)",
       )}
+      whileTap={getAdaptiveTapMotion(motionLevel)}
       className="glass-panel rounded-[1.75rem]"
     >
       <TiltCard className="rounded-[inherit]">
         <motion.div
-          variants={createAdaptiveFadeUp({ isCompact: useCompactMotion, duration: 1.1 })}
+          variants={createAdaptiveFadeUp({ motionLevel, duration: 1.1 })}
           className="relative aspect-[16/10] overflow-hidden border-b border-white/10"
         >
           <motion.img
@@ -42,14 +54,14 @@ function ProjectCard({ project }) {
             draggable={false}
             className="h-full w-full object-cover"
             onError={(event) => handleImageError(event, project.title)}
-            variants={createAdaptiveFadeUp({ isCompact: useCompactMotion, duration: 1.2 })}
+            variants={createAdaptiveFadeUp({ motionLevel, duration: 1.2 })}
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
         </motion.div>
 
         <div className="flex flex-col p-5 sm:p-6">
           <motion.div
-            variants={createAdaptiveFadeUp({ isCompact: useCompactMotion, duration: 1.2 })}
+            variants={createAdaptiveFadeUp({ motionLevel, duration: 1.2 })}
             className="mb-4 flex flex-wrap items-start justify-between gap-3"
           >
             <div>
@@ -59,7 +71,7 @@ function ProjectCard({ project }) {
           </motion.div>
 
           <motion.div
-            variants={createAdaptiveFadeUp({ isCompact: useCompactMotion, duration: 1.3 })}
+            variants={createAdaptiveFadeUp({ motionLevel, duration: 1.3 })}
             className="order-1 mb-5 flex flex-wrap gap-2"
           >
             {project.tech.map((item) => (
@@ -74,7 +86,7 @@ function ProjectCard({ project }) {
 
           <motion.ul
             variants={createAdaptiveStaggerContainer({
-              isCompact: useCompactMotion,
+              motionLevel,
               staggerChildren: 0.1,
             })}
             className="order-3 space-y-3 text-sm leading-7 text-slate-300 sm:order-2"
@@ -82,7 +94,7 @@ function ProjectCard({ project }) {
             {project.features.map((feature) => (
               <motion.li
                 key={feature}
-                variants={createAdaptiveFadeUp({ isCompact: useCompactMotion, duration: 1.4 })}
+                variants={createAdaptiveFadeUp({ motionLevel, duration: 1.4 })}
                 className="flex gap-3"
               >
                 <span className="mt-2 h-2 w-2 rounded-full bg-cyan-400" />
@@ -94,7 +106,7 @@ function ProjectCard({ project }) {
       </TiltCard>
 
       <motion.div
-        variants={createAdaptiveFadeUp({ isCompact: useCompactMotion, duration: 1.4 })}
+        variants={createAdaptiveFadeUp({ motionLevel, duration: 1.4 })}
         className="relative z-20 order-2 flex flex-col gap-3 px-5 pb-5 sm:order-3 sm:flex-row sm:flex-wrap sm:px-6 sm:pb-6"
       >
         {project.liveDemo && (
@@ -102,7 +114,7 @@ function ProjectCard({ project }) {
             href={project.liveDemo}
             target="_blank"
             rel="noreferrer noopener"
-            className="inline-flex w-full cursor-pointer justify-center rounded-xl bg-gradient-to-r from-neon-blue to-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950 transition duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_0_24px_rgba(56,189,248,0.22)] active:scale-[0.985] sm:w-auto"
+            className={`inline-flex w-full cursor-pointer justify-center rounded-xl bg-gradient-to-r from-neon-blue to-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950 transition duration-300 active:scale-[0.985] sm:w-auto ${primaryButtonHoverClass}`}
           >
             Live Demo
           </a>
@@ -111,7 +123,7 @@ function ProjectCard({ project }) {
           href={project.github}
           target="_blank"
           rel="noreferrer noopener"
-          className="inline-flex w-full cursor-pointer justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:bg-white/10 hover:shadow-[0_0_24px_rgba(56,189,248,0.14)] active:scale-[0.985] sm:w-auto"
+          className={`inline-flex w-full cursor-pointer justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition duration-300 active:scale-[0.985] sm:w-auto ${secondaryButtonHoverClass}`}
         >
           GitHub
         </a>
@@ -120,7 +132,7 @@ function ProjectCard({ project }) {
             href={project.videoDocumentation}
             target="_blank"
             rel="noreferrer noopener"
-            className="inline-flex w-full cursor-pointer justify-center rounded-xl border border-neon-purple/20 bg-neon-purple/10 px-4 py-2 text-sm font-semibold text-white transition duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:bg-neon-purple/20 hover:shadow-[0_0_24px_rgba(139,92,246,0.2)] active:scale-[0.985] sm:w-auto"
+            className={`inline-flex w-full cursor-pointer justify-center rounded-xl border border-neon-purple/20 bg-neon-purple/10 px-4 py-2 text-sm font-semibold text-white transition duration-300 active:scale-[0.985] sm:w-auto ${accentButtonHoverClass}`}
           >
             Video Docs
           </a>
@@ -130,4 +142,4 @@ function ProjectCard({ project }) {
   );
 }
 
-export default ProjectCard;
+export default memo(ProjectCard);

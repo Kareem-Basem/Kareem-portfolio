@@ -9,18 +9,21 @@ function getDeviceSnapshot() {
       isDesktop: true,
       canHover: true,
       prefersReducedMotion: false,
+      motionLevel: "full",
     };
   }
 
   const isMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`).matches;
   const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const motionLevel = isMobile || prefersReducedMotion ? "reduced" : "full";
 
   return {
     isMobile,
     isDesktop: !isMobile,
     canHover,
     prefersReducedMotion,
+    motionLevel,
   };
 }
 
@@ -52,7 +55,8 @@ export default function useDeviceMode() {
 
   return {
     ...device,
-    enableRichMotion: device.isDesktop && device.canHover && !device.prefersReducedMotion,
-    useCompactMotion: device.isMobile || device.prefersReducedMotion,
+    enableRichMotion:
+      device.motionLevel === "full" && device.isDesktop && device.canHover,
+    useCompactMotion: device.motionLevel === "reduced",
   };
 }

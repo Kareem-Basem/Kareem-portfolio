@@ -1,19 +1,25 @@
+import { memo } from "react";
 import { motion } from "framer-motion";
 import useDeviceMode from "../hooks/useDeviceMode";
-import { createAdaptiveFadeUp, getCardHoverMotion } from "../utils/motion";
+import {
+  createAdaptiveFadeUp,
+  getAdaptiveTapMotion,
+  getCardHoverMotion,
+} from "../utils/motion";
 import TiltCard from "./TiltCard";
 
 function ExperienceCard({ item, index }) {
-  const { enableRichMotion, useCompactMotion } = useDeviceMode();
+  const { enableRichMotion, motionLevel } = useDeviceMode();
   const isActive = item.period.includes("Present");
 
   return (
     <motion.article
       variants={createAdaptiveFadeUp({
-        isCompact: useCompactMotion,
+        motionLevel,
         duration: 1 + index * 0.05,
       })}
       whileHover={getCardHoverMotion(enableRichMotion)}
+      whileTap={getAdaptiveTapMotion(motionLevel)}
       className="glass-panel rounded-[1.75rem]"
     >
       <TiltCard
@@ -61,4 +67,4 @@ function ExperienceCard({ item, index }) {
   );
 }
 
-export default ExperienceCard;
+export default memo(ExperienceCard);

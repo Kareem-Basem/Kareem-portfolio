@@ -1,7 +1,9 @@
+import { memo } from "react";
 import { motion } from "framer-motion";
 import useDeviceMode from "../hooks/useDeviceMode";
 import {
   createAdaptiveFadeUp,
+  getAdaptiveTapMotion,
   getAdaptiveViewport,
   getCardHoverMotion,
 } from "../utils/motion";
@@ -14,22 +16,24 @@ function handleImageError(event, title) {
 }
 
 function CertificateCard({ certificate, featured = false }) {
-  const { enableRichMotion, useCompactMotion } = useDeviceMode();
+  const { enableRichMotion, motionLevel, isMobile } = useDeviceMode();
+  const featuredShadowClass = isMobile
+    ? "border-neon-purple/30 shadow-[0_0_0_1px_rgba(139,92,246,0.18),0_18px_42px_rgba(15,23,42,0.22),0_0_14px_rgba(56,189,248,0.08)]"
+    : "border-neon-purple/30 shadow-[0_0_0_1px_rgba(139,92,246,0.24),0_30px_90px_rgba(15,23,42,0.48),0_0_30px_rgba(56,189,248,0.12)]";
 
   return (
     <motion.article
       initial="hidden"
       whileInView="show"
-      viewport={getAdaptiveViewport(useCompactMotion)}
-      variants={createAdaptiveFadeUp({ isCompact: useCompactMotion, duration: 1 })}
+      viewport={getAdaptiveViewport(motionLevel)}
+      variants={createAdaptiveFadeUp({ motionLevel, duration: 1 })}
       whileHover={getCardHoverMotion(
         enableRichMotion,
         "0 30px 90px rgba(15, 23, 42, 0.48), 0 0 24px rgba(56, 189, 248, 0.14)",
       )}
+      whileTap={getAdaptiveTapMotion(motionLevel)}
       className={`glass-panel rounded-[1.75rem] ${
-        featured
-          ? "border-neon-purple/30 shadow-[0_0_0_1px_rgba(139,92,246,0.24),0_30px_90px_rgba(15,23,42,0.48),0_0_30px_rgba(56,189,248,0.12)]"
-          : ""
+        featured ? featuredShadowClass : ""
       }`}
     >
       <TiltCard
@@ -37,7 +41,7 @@ function CertificateCard({ certificate, featured = false }) {
         intensity={featured ? "default" : "subtle"}
       >
         <motion.div
-          variants={createAdaptiveFadeUp({ isCompact: useCompactMotion, duration: 1.1 })}
+          variants={createAdaptiveFadeUp({ motionLevel, duration: 1.1 })}
           className="aspect-[4/3] overflow-hidden border-b border-white/10"
         >
           <motion.img
@@ -48,13 +52,13 @@ function CertificateCard({ certificate, featured = false }) {
             draggable={false}
             className="h-full w-full object-cover"
             onError={(event) => handleImageError(event, certificate.title)}
-            variants={createAdaptiveFadeUp({ isCompact: useCompactMotion, duration: 1.2 })}
+            variants={createAdaptiveFadeUp({ motionLevel, duration: 1.2 })}
           />
         </motion.div>
         <div className="p-4 sm:p-5">
           {featured && (
             <motion.div
-              variants={createAdaptiveFadeUp({ isCompact: useCompactMotion, duration: 1.15 })}
+              variants={createAdaptiveFadeUp({ motionLevel, duration: 1.15 })}
               className="mb-3"
             >
               <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1 text-xs font-medium text-amber-200">
@@ -63,7 +67,7 @@ function CertificateCard({ certificate, featured = false }) {
             </motion.div>
           )}
           <motion.div
-            variants={createAdaptiveFadeUp({ isCompact: useCompactMotion, duration: 1.2 })}
+            variants={createAdaptiveFadeUp({ motionLevel, duration: 1.2 })}
             className="mb-3 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between"
           >
             <h3 className="text-base font-semibold text-white sm:text-lg">{certificate.title}</h3>
@@ -78,7 +82,7 @@ function CertificateCard({ certificate, featured = false }) {
             </span>
           </motion.div>
           <motion.div
-            variants={createAdaptiveFadeUp({ isCompact: useCompactMotion, duration: 1.25 })}
+            variants={createAdaptiveFadeUp({ motionLevel, duration: 1.25 })}
             className="mb-3"
           >
             <span className="rounded-full border border-neon-blue/20 bg-neon-blue/10 px-3 py-1 text-xs text-neon-blue">
@@ -86,7 +90,7 @@ function CertificateCard({ certificate, featured = false }) {
             </span>
           </motion.div>
           <motion.p
-            variants={createAdaptiveFadeUp({ isCompact: useCompactMotion, duration: 1.3 })}
+            variants={createAdaptiveFadeUp({ motionLevel, duration: 1.3 })}
             className="text-sm leading-7 text-slate-300"
           >
             {certificate.subtitle}
@@ -97,4 +101,4 @@ function CertificateCard({ certificate, featured = false }) {
   );
 }
 
-export default CertificateCard;
+export default memo(CertificateCard);
