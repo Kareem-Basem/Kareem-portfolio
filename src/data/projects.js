@@ -58,7 +58,7 @@ export const projects = [
       "Movement mechanics refined and core engine adjustments added for smoother gameplay and higher stability.",
       "Support for up to 4K resolution with improved weather, lighting, shadows, and more dynamic AI behavior.",
     ],
-    github: "https://github.com/Kareem-Basem",
+    github: "https://github.com/Kareem-Basem/GTA-San-Andreas-KeMoO-Edition",
   },
   {
     title: "GTA Vice City - KeMoO Edition",
@@ -76,6 +76,6 @@ export const projects = [
       "Character and vehicle movement refined for smoother gameplay.",
       "Game engine adjustments focused on stable, cleaner, and more bug-resistant performance.",
     ],
-    github: "https://github.com/Kareem-Basem",
+    github: "https://github.com/Kareem-Basem/GTA-Vice-City-KeMoO-Edition",
   },
 ];
