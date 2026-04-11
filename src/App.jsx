@@ -135,7 +135,7 @@ function App() {
 
       <main className="relative z-10 mx-auto flex max-w-7xl flex-col gap-8 px-4 pb-20 pt-28 sm:px-6 sm:pt-32 lg:px-8">
         <Section id="home" className="min-h-[calc(100vh-8rem)]">
-          <div className={`relative mt-4 grid-fade section-shell clip-overflow sm:mt-6 ${isMobile ? "mobile-soft-enter" : ""}`}>
+          <div className="relative mt-4 grid-fade section-shell clip-overflow sm:mt-6">
             <div className="pointer-events-none absolute inset-0 opacity-60" />
             <StaggerGroup className="relative grid items-center gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12">
               <div className="mx-auto w-full max-w-xl space-y-6 text-center sm:space-y-8 lg:mx-0 lg:max-w-none lg:text-left">
