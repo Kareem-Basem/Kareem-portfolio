@@ -74,7 +74,7 @@ function Navbar() {
         transform: visible ? "translateY(0)" : "translateY(-110%)",
         transition: isMobile ? "none" : "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
       }}
-      className="px-4 sm:px-6 sm:py-4 lg:px-8"
+      className="pl-3 pr-4 sm:px-6 sm:py-4 lg:px-8"
     >
       <nav
         style={{
