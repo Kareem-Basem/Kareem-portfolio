@@ -96,8 +96,8 @@ Hero → About → Skills → Experience → Projects → Certifications → Con
 
 ## 🔗 Links
 
-- 🌍 **Live Demo:** [your-live-demo-link.vercel.app](https://kareem-basem.vercel.app)
-- 💻 **GitHub:** [github.com/your-username/your-repo](https://github.com/Kareem-Basem/Kareem-portfolio)
+- 🌍 **Live Demo:** [https://kareem-basem.vercel.app](https://kareem-basem.vercel.app)
+- 💻 **GitHub:** [https://github.com/Kareem-Basem/Kareem-portfolio](https://github.com/Kareem-Basem/Kareem-portfolio)
 
 ---
 
