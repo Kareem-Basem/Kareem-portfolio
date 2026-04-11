@@ -2,7 +2,7 @@ export const experience = [
   {
     title: "Intern - Commercial International Bank (CIB)",
     company: "CIB Egypt",
-    period: "Sep 2025 - Present",
+    period: "Sep 2025",
     location: "Assiut, Egypt",
     type: "On-site Internship",
     highlights: [
@@ -14,7 +14,7 @@ export const experience = [
   {
     title: "Online Training Participant - Commercial International Bank (CIB)",
     company: "CIB Egypt",
-    period: "Aug 2025 - Present",
+    period: "Aug 2025",
     location: "Remote",
     type: "Online Training",
     highlights: [

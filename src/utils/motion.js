@@ -131,12 +131,7 @@ export function getAdaptiveTapMotion(motionLevel = "full") {
 
 export function getButtonMotionProps(enabled, motionLevel = "full") {
   if (!enabled) {
-    return {
-      initial: false,
-      whileHover: undefined,
-      whileTap: undefined,
-      variants: undefined,
-    };
+    return {};
   }
 
   return {
