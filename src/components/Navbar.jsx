@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import useDeviceMode from "../hooks/useDeviceMode";
 
 const navItems = [
   { label: "About", href: "#about" },
@@ -9,6 +10,7 @@ const navItems = [
 ];
 
 function Navbar() {
+  const { enableRichMotion, isMobile } = useDeviceMode();
   const [visible, setVisible] = useState(true);
   const [atTop, setAtTop] = useState(true);
   const [activeSection, setActiveSection] = useState("home");
@@ -20,7 +22,10 @@ function Navbar() {
 
     if (!target) return;
 
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    target.scrollIntoView({
+      behavior: isMobile ? "auto" : "smooth",
+      block: "start",
+    });
   };
 
   useEffect(() => {
@@ -91,7 +96,9 @@ function Navbar() {
           <a
             href="#home"
             onClick={scrollToSection("#home")}
-            className="shrink-0 text-[0.82rem] font-bold tracking-[0.05em] text-white transition duration-200 hover:scale-[1.03] hover:opacity-90 sm:text-[0.88rem]"
+            className={`shrink-0 text-[0.82rem] font-bold tracking-[0.05em] text-white transition duration-200 sm:text-[0.88rem] ${
+              enableRichMotion ? "hover:scale-[1.03] hover:opacity-90" : ""
+            }`}
           >
             KeMoO
           </a>
@@ -120,11 +127,11 @@ function Navbar() {
           <a
             href="#contact"
             onClick={scrollToSection("#contact")}
-            className={`shrink-0 rounded-full border px-3.5 py-2 text-sm transition duration-200 hover:-translate-y-px sm:px-4 sm:py-[0.55rem] ${
+            className={`shrink-0 rounded-full border px-3.5 py-2 text-sm transition duration-200 sm:px-4 sm:py-[0.55rem] ${
               activeSection === "contact"
                 ? "border-sky-400/45 bg-sky-400/15 text-sky-300 shadow-[0_0_0_1px_rgba(56,189,248,0.2),0_10px_24px_rgba(8,145,178,0.15)]"
                 : "border-sky-400/30 bg-sky-400/10 text-sky-400 hover:border-sky-400/45 hover:bg-sky-400/20"
-            }`}
+            } ${enableRichMotion ? "hover:-translate-y-px" : ""}`}
           >
             Contact
           </a>

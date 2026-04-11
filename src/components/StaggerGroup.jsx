@@ -1,5 +1,9 @@
 import { motion } from "framer-motion";
-import { createStaggerContainer, darkEntryViewport } from "../utils/motion";
+import useDeviceMode from "../hooks/useDeviceMode";
+import {
+  createAdaptiveStaggerContainer,
+  getAdaptiveViewport,
+} from "../utils/motion";
 
 function StaggerGroup({
   children,
@@ -9,14 +13,19 @@ function StaggerGroup({
   delayChildren = 0,
 }) {
   const Component = motion[as];
+  const { useCompactMotion } = useDeviceMode();
 
   return (
     <Component
       className={className}
-      variants={createStaggerContainer({ delayChildren, staggerChildren })}
+      variants={createAdaptiveStaggerContainer({
+        isCompact: useCompactMotion,
+        delayChildren,
+        staggerChildren,
+      })}
       initial="hidden"
       whileInView="show"
-      viewport={darkEntryViewport}
+      viewport={getAdaptiveViewport(useCompactMotion)}
     >
       {children}
     </Component>

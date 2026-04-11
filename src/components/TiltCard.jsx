@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import useDeviceMode from "../hooks/useDeviceMode";
 
 const intensityMap = {
   default: { rotateX: 6, rotateY: 8, lift: 2 },
@@ -11,6 +12,7 @@ function TiltCard({
   disabled = false,
   intensity = "default",
 }) {
+  const { enableRichMotion } = useDeviceMode();
   const rootRef = useRef(null);
   const frameRef = useRef(null);
   const pointerRef = useRef({ x: 0.5, y: 0.5, active: false });
@@ -26,7 +28,7 @@ function TiltCard({
   useEffect(() => {
     const element = rootRef.current;
 
-    if (!element || disabled) {
+    if (!element || disabled || !enableRichMotion) {
       return undefined;
     }
 
@@ -91,13 +93,14 @@ function TiltCard({
         window.cancelAnimationFrame(frameRef.current);
       }
     };
-  }, [disabled, intensity]);
+  }, [disabled, enableRichMotion, intensity]);
 
   return (
     <div
       ref={rootRef}
       className={`tilt-card relative ${className}`.trim()}
       style={{ touchAction: "pan-y", overflow: "visible" }}
+      data-tilt-enabled={enableRichMotion && !disabled ? "true" : "false"}
     >
       <div aria-hidden="true" className="tilt-card__glow" />
       <div data-tilt-content className="tilt-card__content relative z-[1]">

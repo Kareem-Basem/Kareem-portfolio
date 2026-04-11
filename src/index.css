@@ -105,6 +105,32 @@ img {
   will-change: transform;
 }
 
+.tilt-card[data-tilt-enabled="false"] {
+  will-change: auto;
+}
+
+.tilt-card[data-tilt-enabled="false"] .tilt-card__glow {
+  display: none;
+}
+
+.tilt-card[data-tilt-enabled="false"] .tilt-card__content {
+  will-change: auto;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .tilt-card {
+    will-change: auto;
+  }
+
+  .tilt-card__glow {
+    display: none;
+  }
+
+  .tilt-card__content {
+    will-change: auto;
+  }
+}
+
 .clip-overflow {
   overflow: hidden;
 }

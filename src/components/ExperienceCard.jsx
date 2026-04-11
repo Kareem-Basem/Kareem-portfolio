@@ -1,20 +1,26 @@
 import { motion } from "framer-motion";
-import { createFadeUp } from "../utils/motion";
+import useDeviceMode from "../hooks/useDeviceMode";
+import { createAdaptiveFadeUp, getCardHoverMotion } from "../utils/motion";
 import TiltCard from "./TiltCard";
 
 function ExperienceCard({ item, index }) {
+  const { enableRichMotion, useCompactMotion } = useDeviceMode();
   const isActive = item.period.includes("Present");
 
   return (
     <motion.article
-      variants={createFadeUp({ duration: 1 + index * 0.05 })}
-      whileHover={{
-        y: -8,
-        transition: { duration: 0.3, ease: "ease" },
-      }}
+      variants={createAdaptiveFadeUp({
+        isCompact: useCompactMotion,
+        duration: 1 + index * 0.05,
+      })}
+      whileHover={getCardHoverMotion(enableRichMotion)}
       className="glass-panel rounded-[1.75rem]"
     >
-      <TiltCard className="h-full rounded-[inherit]">
+      <TiltCard
+        className="h-full rounded-[inherit]"
+        intensity="subtle"
+        disabled={!enableRichMotion}
+      >
         <div className="p-5 sm:p-6">
           <div className="mb-4 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:justify-between">
             <div>

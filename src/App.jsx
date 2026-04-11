@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import useDeviceMode from "./hooks/useDeviceMode";
 import AnimatedReveal from "./components/AnimatedReveal";
 import Navbar from "./components/Navbar";
 import Section from "./components/Section";
@@ -13,9 +14,11 @@ import { certificates } from "./data/certificates";
 import { experience } from "./data/experience";
 import kareemCv from "../assets/kareem-cv.pdf";
 import {
-  createFadeLeft,
-  createFadeUp,
-  darkEntryButtonHover,
+  createAdaptiveFadeLeft,
+  createAdaptiveFadeUp,
+  getAdaptiveViewport,
+  getButtonMotionProps,
+  getCardHoverMotion,
 } from "./utils/motion";
 
 const skills = [
@@ -73,9 +76,11 @@ const contactLinks = [
 ];
 
 function App() {
+  const { enableRichMotion, useCompactMotion } = useDeviceMode();
   const [activeCertificateCategory, setActiveCertificateCategory] = useState(
     "AI & Generative AI",
   );
+  const buttonMotionProps = getButtonMotionProps(enableRichMotion);
 
   const featuredCertificates = useMemo(
     () => certificates.filter((certificate) => certificate.featured),
@@ -137,15 +142,15 @@ function App() {
                 </AnimatedReveal>
 
                 <motion.div
-                  variants={createFadeUp({ duration: 1.1 })}
+                  variants={createAdaptiveFadeUp({
+                    isCompact: useCompactMotion,
+                    duration: 1.1,
+                  })}
                   className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4"
                 >
                   <motion.a
                     href="#projects"
-                    initial="rest"
-                    whileHover="hover"
-                    whileTap="tap"
-                    variants={darkEntryButtonHover}
+                    {...buttonMotionProps}
                     className="w-full rounded-2xl bg-gradient-to-r from-neon-blue to-cyan-400 px-6 py-3 text-center font-semibold text-slate-950 sm:w-auto"
                   >
                     View Projects
@@ -153,10 +158,7 @@ function App() {
                   <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:gap-4">
                     <motion.a
                       href="#contact"
-                      initial="rest"
-                      whileHover="hover"
-                      whileTap="tap"
-                      variants={darkEntryButtonHover}
+                      {...buttonMotionProps}
                       className="glass-panel rounded-2xl px-4 py-3 text-center font-semibold text-white sm:px-6"
                     >
                       Contact
@@ -165,10 +167,7 @@ function App() {
                       href={kareemCv}
                       target="_blank"
                       rel="noreferrer noopener"
-                      initial="rest"
-                      whileHover="hover"
-                      whileTap="tap"
-                      variants={darkEntryButtonHover}
+                      {...buttonMotionProps}
                       className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center font-semibold text-white sm:px-6"
                     >
                       View CV
@@ -184,7 +183,10 @@ function App() {
                   ].map((item, index) => (
                     <motion.div
                       key={item}
-                      variants={createFadeUp({ duration: 1 + index * 0.1 })}
+                      variants={createAdaptiveFadeUp({
+                        isCompact: useCompactMotion,
+                        duration: 1 + index * 0.1,
+                      })}
                       className="glass-panel rounded-2xl px-4 py-3 text-center text-sm text-slate-200 sm:py-4 sm:text-left"
                     >
                       {item}
@@ -195,7 +197,10 @@ function App() {
 
               <AnimatedReveal
                 className="order-2 relative mx-auto w-full max-w-sm sm:max-w-md lg:order-none"
-                variants={createFadeLeft({ duration: 1.1 })}
+                variants={createAdaptiveFadeLeft({
+                  isCompact: useCompactMotion,
+                  duration: 1.1,
+                })}
               >
                 <div className="glass-panel animate-float relative rounded-[2rem] p-4 sm:p-6">
                   <div className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />
@@ -241,7 +246,10 @@ function App() {
             ].map((text, index) => (
               <motion.div
                 key={text}
-                variants={createFadeUp({ duration: 1 + index * 0.1 })}
+                variants={createAdaptiveFadeUp({
+                  isCompact: useCompactMotion,
+                  duration: 1 + index * 0.1,
+                })}
                 className="glass-panel rounded-2xl p-5 text-slate-300"
               >
                 {text}
@@ -260,11 +268,11 @@ function App() {
             {skills.map((group, index) => (
               <motion.div
                 key={group.title}
-                variants={createFadeUp({ duration: 1 + index * 0.1 })}
-                whileHover={{
-                  y: -8,
-                  transition: { duration: 0.3, ease: "ease" },
-                }}
+                variants={createAdaptiveFadeUp({
+                  isCompact: useCompactMotion,
+                  duration: 1 + index * 0.1,
+                })}
+                whileHover={getCardHoverMotion(enableRichMotion)}
                 className="glass-panel rounded-2xl p-5"
               >
                 <h3 className="mb-4 text-lg font-semibold text-white">
@@ -320,10 +328,13 @@ function App() {
           <div className="space-y-10">
             <div>
               <motion.div
-                variants={createFadeUp({ duration: 1 })}
+                variants={createAdaptiveFadeUp({
+                  isCompact: useCompactMotion,
+                  duration: 1,
+                })}
                 initial="hidden"
                 whileInView="show"
-                viewport={{ once: true, amount: 0.2 }}
+                viewport={getAdaptiveViewport(useCompactMotion)}
                 className="mb-5"
               >
                 <h3 className="text-xl font-semibold text-white">
@@ -343,17 +354,23 @@ function App() {
 
             <div>
               <motion.div
-                variants={createFadeUp({ duration: 1.05 })}
+                variants={createAdaptiveFadeUp({
+                  isCompact: useCompactMotion,
+                  duration: 1.05,
+                })}
                 initial="hidden"
                 whileInView="show"
-                viewport={{ once: true, amount: 0.2 }}
+                viewport={getAdaptiveViewport(useCompactMotion)}
                 className="mb-5 flex flex-wrap gap-3"
               >
                 {certificateCategories.map((category, index) => (
                   <motion.button
                     key={category}
                     type="button"
-                    variants={createFadeUp({ duration: 1 + index * 0.05 })}
+                    variants={createAdaptiveFadeUp({
+                      isCompact: useCompactMotion,
+                      duration: 1 + index * 0.05,
+                    })}
                     onClick={() => setActiveCertificateCategory(category)}
                     className={`rounded-full px-4 py-2 text-sm font-medium transition duration-300 ${
                       activeCertificateCategory === category
@@ -369,7 +386,10 @@ function App() {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeCertificateCategory}
-                  variants={createFadeUp({ duration: 1 })}
+                  variants={createAdaptiveFadeUp({
+                    isCompact: useCompactMotion,
+                    duration: 1,
+                  })}
                   initial="hidden"
                   animate="show"
                   exit="hidden"
@@ -396,14 +416,14 @@ function App() {
         >
           <div className="max-w-5xl">
             <motion.div
-              variants={createFadeUp({ duration: 1 })}
+              variants={createAdaptiveFadeUp({
+                isCompact: useCompactMotion,
+                duration: 1,
+              })}
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true, amount: 0.2 }}
-              whileHover={{
-                y: -8,
-                transition: { duration: 0.3, ease: "ease" },
-              }}
+              viewport={getAdaptiveViewport(useCompactMotion)}
+              whileHover={getCardHoverMotion(enableRichMotion)}
               className="glass-panel block rounded-[1.75rem] p-6 sm:p-8"
             >
               <p className="mb-3 text-sm uppercase tracking-[0.28em] text-neon-blue">
@@ -422,7 +442,10 @@ function App() {
                   .map((item, index) => (
                     <motion.span
                       key={item.label}
-                      variants={createFadeUp({ duration: 1 + index * 0.1 })}
+                      variants={createAdaptiveFadeUp({
+                        isCompact: useCompactMotion,
+                        duration: 1 + index * 0.1,
+                      })}
                       className="block"
                     >
                       <ContactLinkCard
