@@ -148,11 +148,11 @@ export const certificates = [
     featured: false,
   },
   {
-    title: "ASORC Blockchain",
-    subtitle: "Blockchain fundamentals and emerging technology awareness.",
+    title: "ASORC - Assiut Oil Refining Company",
+    subtitle: "Gained real-world IT exposure inside a petroleum industry environment.",
     image: asorcBlockchain,
     status: "Completed",
-    category: "Cybersecurity & Technical Tools",
+    category: "Business, Marketing & Professional Skills",
     featured: false,
   },
   {
