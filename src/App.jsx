@@ -76,6 +76,7 @@ const contactLinks = [
     label: "Resume",
     value: "Open CV PDF",
     href: kareemCv,
+    download: true,
   },
 ];
 
@@ -497,6 +498,7 @@ function App() {
                         href={item.href}
                         label={item.label}
                         value={item.value}
+                        download={item.download ? "Kareem Basem Fathi.pdf" : undefined}
                         external={
                           item.href.startsWith("http") || item.href.endsWith(".pdf")
                         }
