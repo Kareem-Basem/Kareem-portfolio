@@ -16,7 +16,7 @@ import StaggerGroup from "./components/StaggerGroup";
 import { projects } from "./data/projects";
 import { certificates } from "./data/certificates";
 import { experience } from "./data/experience";
-import kareemCv from "../assets/kareem-cv.pdf";
+import kareemCv from "../assets/Kareem Basem Fathi.pdf";
 import {
   createAdaptiveFadeLeft,
   createAdaptiveFadeUp,
@@ -185,8 +185,7 @@ function App() {
                     </MotionAnchor>
                     <MotionAnchor
                       href={kareemCv}
-                      target="_blank"
-                      rel="noreferrer noopener"
+                      download="Kareem Basem Fathi.pdf"
                       {...buttonMotionProps}
                       className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center font-semibold text-white sm:px-6"
                     >
