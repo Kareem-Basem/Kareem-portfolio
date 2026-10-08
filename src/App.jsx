@@ -16,7 +16,6 @@ import StaggerGroup from "./components/StaggerGroup";
 import { projects } from "./data/projects";
 import { certificates } from "./data/certificates";
 import { experience } from "./data/experience";
-import kareemCv from "../assets/Kareem Basem Fathi.pdf";
 import {
   createAdaptiveFadeLeft,
   createAdaptiveFadeUp,
@@ -24,6 +23,8 @@ import {
   getButtonMotionProps,
   getCardHoverMotion,
 } from "./utils/motion";
+
+const kareemCv = "/Kareem%20Basem%20Fathi.pdf";
 
 const skills = [
   {
@@ -76,7 +77,6 @@ const contactLinks = [
     label: "Resume",
     value: "Open CV PDF",
     href: kareemCv,
-    download: true,
   },
 ];
 
@@ -186,7 +186,8 @@ function App() {
                     </MotionAnchor>
                     <MotionAnchor
                       href={kareemCv}
-                      download="Kareem Basem Fathi.pdf"
+                      target="_blank"
+                      rel="noreferrer noopener"
                       {...buttonMotionProps}
                       className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center font-semibold text-white sm:px-6"
                     >
@@ -498,7 +499,6 @@ function App() {
                         href={item.href}
                         label={item.label}
                         value={item.value}
-                        download={item.download ? "Kareem Basem Fathi.pdf" : undefined}
                         external={
                           item.href.startsWith("http") || item.href.endsWith(".pdf")
                         }

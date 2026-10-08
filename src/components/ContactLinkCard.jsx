@@ -4,14 +4,13 @@ import { getAdaptiveTapMotion, getCardHoverMotion } from "../utils/motion";
 import { useMotionProps, useMotionTag } from "./MotionSafe";
 import TiltCard from "./TiltCard";
 
-function ContactLinkCard({ href, label, value, external = false, download }) {
+function ContactLinkCard({ href, label, value, external = false }) {
   const { enableRichMotion, motionLevel } = useDeviceMode();
   const MotionAnchor = useMotionTag("a");
 
   return (
     <MotionAnchor
       href={href}
-      download={download}
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer noopener" : undefined}
       {...useMotionProps({
